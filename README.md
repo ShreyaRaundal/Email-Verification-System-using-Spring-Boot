@@ -128,3 +128,23 @@ spring.mail.password=YOUR_APP_PASSWORD
 * Spring Boot layered architecture
 
 ---
+<img width="1366" height="659" alt="image" src="https://github.com/user-attachments/assets/2d3353a7-1ecc-4331-b08c-3e611118ee7f" />
+<img width="1366" height="756" alt="image" src="https://github.com/user-attachments/assets/6ae648ff-548d-4baa-a3b4-5f126e210607" />
+<img width="1359" height="727" alt="image" src="https://github.com/user-attachments/assets/b11ceec6-5832-4c1d-a79b-920dfa445818" />
+<img width="1366" height="727" alt="image" src="https://github.com/user-attachments/assets/c4652c87-dcdf-497a-b49e-163133835d89" />
+<img width="1366" height="716" alt="image" src="https://github.com/user-attachments/assets/58a136a4-14e6-41a6-848f-1db48ce61986" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/3f8e22f3-462e-4279-ad0e-7d44060d5547" />
+<img width="1357" height="725" alt="image" src="https://github.com/user-attachments/assets/3836f86d-9227-47e1-a626-5b0f1d6f2257" />
+<img width="1364" height="732" alt="image" src="https://github.com/user-attachments/assets/56fbfff7-a00a-4e86-aada-22f5b6a55bbc" />
+<img width="1364" height="738" alt="image" src="https://github.com/user-attachments/assets/84aa1505-f7e7-4757-ae73-add74dd9682c" />
+
+
+
+
+
+
+
+
+
+
+
