@@ -1,5 +1,6 @@
 package com.mfs.Emailverification.Service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import com.mfs.Emailverification.Entity.ConfirmationToken;
 import com.mfs.Emailverification.Entity.User;
 import com.mfs.Emailverification.Repository.ConfirmationTokenRepository;
@@ -16,11 +17,17 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ConfirmationTokenRepository confirmationTokenRepository;
     private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, ConfirmationTokenRepository confirmationTokenRepository, EmailService emailService) {
+    public UserServiceImpl(UserRepository userRepository,
+                           ConfirmationTokenRepository confirmationTokenRepository,
+                           EmailService emailService,
+                           PasswordEncoder passwordEncoder) {
+
         this.userRepository = userRepository;
         this.confirmationTokenRepository = confirmationTokenRepository;
         this.emailService = emailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -30,24 +37,33 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.badRequest().body("Error: Email is already in use!");
         }
 
-        // User must be disabled until email verification
+        user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
+
         user.setEnabled(false);
         userRepository.save(user);
 
         ConfirmationToken confirmationToken = new ConfirmationToken(user);
         confirmationTokenRepository.save(confirmationToken);
+
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(user.getUserEmail());
         mailMessage.setSubject("Complete Registration!");
-        mailMessage.setText("To confirm your account, please click here : " + "http://localhost:8085/confirm-account?token=" + confirmationToken.getConfirmationToken());
+        mailMessage.setText(
+                "To confirm your account, please click here : " +
+                        "http://localhost:8085/confirm-account?token=" +
+                        confirmationToken.getConfirmationToken()
+        );
+
         emailService.sendEmail(mailMessage);
+
         return ResponseEntity.ok("Verify email by the link sent to your email address");
     }
 
     @Override
     public ResponseEntity<?> confirmEmail(String confirmationToken) {
 
-        ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+        ConfirmationToken token =
+                confirmationTokenRepository.findByConfirmationToken(confirmationToken);
 
         if (token == null) {
             return ResponseEntity.badRequest().body("Invalid token");
@@ -60,7 +76,9 @@ public class UserServiceImpl implements UserService {
         User user = token.getUser();
         user.setEnabled(true);
         userRepository.save(user);
+
         confirmationTokenRepository.delete(token);
+
         return ResponseEntity.ok("Email verified successfully!");
     }
 }
